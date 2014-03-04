@@ -1,0 +1,21 @@
+﻿<html>
+<head>
+    <title>Hello world</title>
+</head>
+
+
+    <body>
+        
+        It is default layout<br/>
+        
+
+        @RenderBody()
+        <footer>
+            @if (IsSectionDefined("FooterSection"))
+            {
+                @RenderSection("FooterSection")
+            }
+        </footer>
+    </body>
+
+</html>

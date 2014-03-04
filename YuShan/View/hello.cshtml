@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "myLayout";
+    var myMessage = "<Angela Wang";
+    var display = true;
+
+    var ss = Model.QueryString;
+
+}
+
+@for (var i = 1; i < 10; i++)
+{
+    <h1>Hello @Raw(Model.Name) and @myMessage </h1>
+
+    if (display)
+    {
+        <span>Q:@ss</span>
+    }
+}
+
+
+
+
+@section FooterSection {
+    <span>Contact Us</span>
+    <span>Home</span>
+
+}
