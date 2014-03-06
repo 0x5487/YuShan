@@ -15,10 +15,12 @@ namespace Katana.Framework
 
         public static Task Render(this IOwinContext context, string viewPath, object model)
         {
-            viewPath = Path.Combine(@"C:\Users\jason\Documents\Visual Studio 2013\Projects\myKatana\Katana\View\", viewPath);
+            string viewFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Views") + Path.DirectorySeparatorChar;
+
+            viewPath = Path.Combine(viewFolder + viewPath);
             var viewFile = new FileInfo(viewPath);
 
-            string layoutPath = Path.Combine(@"C:\Users\jason\Documents\Visual Studio 2013\Projects\myKatana\Katana\View\", "myLayout.cshtml");
+            string layoutPath = Path.Combine(viewFolder, "myLayout.cshtml");
             var layoutFile = new FileInfo(layoutPath);
 
             if (viewFile.Exists)

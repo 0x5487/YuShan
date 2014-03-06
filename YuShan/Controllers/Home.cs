@@ -74,7 +74,7 @@ namespace Katana.Controllers
             Server.Get("/display_form", async (context) =>
             {
 
-                await context.Render("post_form.cshtml", null);
+                await context.Render("post_form", null);
             });
 
 

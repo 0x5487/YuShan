@@ -8,14 +8,16 @@ using Microsoft.Owin;
 
 namespace YuShan.Middlewares
 {
-    class WebMiddleware : OwinMiddleware
+    class RouteMiddleware : OwinMiddleware
     {
-        public WebMiddleware(OwinMiddleware next) : base(next)
+        public RouteMiddleware(OwinMiddleware next) : base(next)
         {
         }
 
         public override Task Invoke(IOwinContext context)
         {
+          
+
             string verb = context.Request.Method;
             string path = context.Request.Path.ToString();
             Func<IOwinContext, Task> method;

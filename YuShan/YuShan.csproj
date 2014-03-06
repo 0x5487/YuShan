@@ -63,6 +63,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.1\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -73,23 +77,39 @@
     <Compile Include="Controllers\Home.cs" />
     <Compile Include="Framework\HelloW.cs" />
     <Compile Include="Middleware\NotFound\NotFoundMiddleware.cs" />
-    <Compile Include="Middleware\Web\Server.cs" />
-    <Compile Include="Middleware\Web\ViewEx.cs" />
-    <Compile Include="Middleware\Web\WebMiddleware.cs" />
+    <Compile Include="Middleware\Router\RouteBuilder.cs" />
+    <Compile Include="Middleware\Router\Routing.cs" />
+    <Compile Include="Middleware\Router\Server.cs" />
+    <Compile Include="Middleware\Router\ViewEx.cs" />
+    <Compile Include="Middleware\Router\RouteMiddleware.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewEngine\IViewEngine.cs" />
+    <Compile Include="ViewEngine\RazorViewEngine.cs" />
+    <Compile Include="ViewEngine\ViewEngineActivator.cs" />
+    <Compile Include="ViewEngine\ViewEngineExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="View\displayForm.cshtml" />
-    <None Include="View\helloWorld.cshtml" />
-    <None Include="View\hello.cshtml" />
-    <None Include="View\myLayout.cshtml" />
-    <None Include="View\post_form.cshtml" />
+    <None Include="Views\displayForm.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Views\helloWorld.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Views\hello.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Views\myLayout.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Views\post_form.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -102,6 +122,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ab.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Router\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
