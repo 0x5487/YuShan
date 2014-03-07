@@ -78,7 +78,7 @@
     <Compile Include="Framework\HelloW.cs" />
     <Compile Include="Middleware\NotFound\NotFoundMiddleware.cs" />
     <Compile Include="Middleware\Router\RouteBuilder.cs" />
-    <Compile Include="Middleware\Router\Routing.cs" />
+    <Compile Include="Middleware\Router\OWINExtension.cs" />
     <Compile Include="Middleware\Router\Server.cs" />
     <Compile Include="Middleware\Router\ViewEx.cs" />
     <Compile Include="Middleware\Router\RouteMiddleware.cs" />

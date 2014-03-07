@@ -1,1 +1,1 @@
-﻿ab -k -c 100 -n 10000 http://localhost:12345/hello
+﻿ab -k -c 1000 -n 100000 http://localhost:12345/hello

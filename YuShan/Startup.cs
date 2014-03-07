@@ -36,19 +36,19 @@ namespace YuShan
 
             });
 
-            app.Get("/hello", async context =>
+            app.Get("/hello", context =>
             {
                 var model = new {Title = "Hello Jason"};
-                await context.View<object>("helloWorld", model);
+                return context.View<object>("helloWorld", model);
             });
 
-            app.Get("/abc", context =>
+            app.Get("/abc/:name", context =>
             {
                 return context.Response.WriteAsync("abc");
 
             });
 
-            app.Get("/display", async context =>
+            app.Get("/display_form", async context =>
             {
                 await context.View("post_form");  
             });

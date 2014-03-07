@@ -1,44 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Katana.Framework;
 using Microsoft.Owin;
+using Owin;
+using Owin.HelloWorld.Routing;
+using YuShan.Middlewares;
 
 namespace YuShan.Middlewares
 {
-    class RouteMiddleware : OwinMiddleware
+    using AppFunc = Func<IDictionary<string, object>, Task>;
+
+    public class RouteMiddleware 
     {
-        public RouteMiddleware(OwinMiddleware next) : base(next)
+        private Regex _route = null;
+        private AppFunc _next = null;
+        private Func<IOwinContext, Task> _action = null;
+
+        public RouteMiddleware(AppFunc next, string route, Func<IOwinContext, Task> action)
         {
+            this._route = RouteBuilder.RouteToRegex(route);
+            this._next = next;
+            this._action = action;
         }
 
-        public override Task Invoke(IOwinContext context)
+        public Task Invoke(IDictionary<string, object> env)
         {
-          
 
-            string verb = context.Request.Method;
-            string path = context.Request.Path.ToString();
-            Func<IOwinContext, Task> method;
+            var path = (string)env["owin.RequestPath"];
 
-            switch (verb)
+            if (path.Length > 1 && path.EndsWith("/"))
+                path = path.TrimEnd('/');
+
+            if ((string)env["owin.RequestMethod"] == "GET" && _route.IsMatch(path))
             {
-                case "GET":
-                    if (Server.GetRoutes.TryGetValue(path, out method))
-                    {
-                        return method(context);
-                    }
-                    break;
-                case "POST":
-                    if (Server.PostRoutes.TryGetValue(path, out method))
-                    {
-                        return method(context);
-                    }
-                    break;
+                IOwinContext owinContext = new OwinContext(env);
+                return _action.Invoke(owinContext);
+            }
+            else
+            {
+                return _next.Invoke(env);
             }
 
-            return Next.Invoke(context);
+
         }
     }
 }
