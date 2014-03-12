@@ -7,6 +7,7 @@ using Microsoft.Owin;
 using Owin;
 using Owin.HelloWorld.Routing;
 using YuShan.Middlewares;
+using JasonSoft;
 
 namespace YuShan.Middlewares
 {
@@ -14,13 +15,13 @@ namespace YuShan.Middlewares
 
     public class RouteMiddleware 
     {
-        private Regex _route = null;
+        private RouteRegex _routeBuilder = null;
         private AppFunc _next = null;
         private Func<IOwinContext, Task> _action = null;
 
         public RouteMiddleware(AppFunc next, string route, Func<IOwinContext, Task> action)
         {
-            this._route = RouteBuilder.RouteToRegex(route);
+            this._routeBuilder = new RouteRegex(route);
             this._next = next;
             this._action = action;
         }
@@ -33,9 +34,16 @@ namespace YuShan.Middlewares
             if (path.Length > 1 && path.EndsWith("/"))
                 path = path.TrimEnd('/');
 
-            if ((string)env["owin.RequestMethod"] == "GET" && _route.IsMatch(path))
-            {
+            if ((string)env["owin.RequestMethod"] == "GET" && _routeBuilder.Validate(path))
+            {                     
+                
                 IOwinContext owinContext = new OwinContext(env);
+
+                if(!_routeBuilder.Parameters.IsNullOrEmpty())
+                {
+                    owinContext.Request.Set<IDictionary<string, string>>("param", _routeBuilder.Parameters);
+                }
+                
                 return _action.Invoke(owinContext);
             }
             else

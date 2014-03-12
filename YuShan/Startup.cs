@@ -42,9 +42,11 @@ namespace YuShan
                 return context.View<object>("helloWorld", model);
             });
 
-            app.Get("/abc/:name", context =>
+            app.Get("/abc/{yourName}/{lastName}", ctx =>
             {
-                return context.Response.WriteAsync("abc");
+                var param = ctx.Get<IDictionary<string, string>>("param");
+
+                return ctx.Response.WriteAsync(param["yourName"]);
 
             });
 
