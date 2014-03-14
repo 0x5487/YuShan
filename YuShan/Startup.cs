@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 using Katana.Controllers;
 using Katana.Framework;
 using Microsoft.Owin;
-using Microsoft.Owin.StaticFiles;
 using Owin;
-using Owin.HelloWorld.ViewEngine;
 using YuShan.Middlewares;
 using YuShan.Session.Owin;
 using YuShan.Routing;
@@ -23,39 +21,31 @@ namespace YuShan
 #if DEBUG
             app.UseErrorPage();
 #endif
-
+            
             app.DefaultViewEngine<RazorViewEngine>();
-            //app.Use(typeof (InStoreSessionMiddleware));
 
-            //new Home();
-            //app.Use(typeof (RouteMiddleware));
 
-            app.Get("/", context =>
+            app.Get("/", ctx =>
             {
-                return context.Response.WriteAsync("Thank You");
-
+                return "Hello World";
             });
 
-            app.Get("/hello", context =>
+            app.Get("/hello", ctx =>
             {
                 var model = new {Title = "Hello Jason"};
-                return context.View<object>("helloWorld", model);
+                return ctx.Render("helloWorld", model);
             });
 
             app.Get("/abc/{yourName}/{lastName}", ctx =>
             {
                 var param = ctx.Get<IDictionary<string, string>>("param");
-
-                return ctx.Response.WriteAsync(param["yourName"]);
-
+                return param["yourName"];
             });
 
-            app.Get("/display_form", async context =>
-            {
-                await context.View("post_form");  
+            app.Get("/display_form", async ctx =>
+            {  
+                 return ctx.Render("post_form");
             });
-
-            app.Use(typeof(NotFoundMiddleware));
 
         }
     }

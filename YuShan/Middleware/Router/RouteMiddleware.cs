@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
-using Owin.HelloWorld.Routing;
+using YuShan.Routing;
 using YuShan.Middlewares;
 using JasonSoft;
 
@@ -17,9 +17,19 @@ namespace YuShan.Middlewares
     {
         private RouteRegex _routeBuilder = null;
         private AppFunc _next = null;
-        private Func<IOwinContext, Task> _action = null;
+        private Func<IOwinContext, Task<string>> _actionAsync = null;
+        private Func<IOwinContext, string> _action = null;
 
-        public RouteMiddleware(AppFunc next, string route, Func<IOwinContext, Task> action)
+
+        public RouteMiddleware(AppFunc next, string route, Func<IOwinContext, Task<string>> actionAsync)
+        {
+            this._routeBuilder = new RouteRegex(route);
+            this._next = next;
+            this._actionAsync = actionAsync;
+        }
+
+
+        public RouteMiddleware(AppFunc next, string route, Func<IOwinContext, string> action)
         {
             this._routeBuilder = new RouteRegex(route);
             this._next = next;
@@ -43,8 +53,18 @@ namespace YuShan.Middlewares
                 {
                     owinContext.Request.Set<IDictionary<string, string>>("param", _routeBuilder.Parameters);
                 }
-                
-                return _action.Invoke(owinContext);
+
+                string content = string.Empty;
+                if (_action != null)
+                {
+                    content = _action.Invoke(owinContext);
+                }
+                else if(_actionAsync != null)
+                {
+                    content = _actionAsync.Invoke(owinContext).Result;
+                }
+
+                return owinContext.Response.WriteAsync(content);
             }
             else
             {

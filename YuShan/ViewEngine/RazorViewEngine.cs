@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RazorEngine;
 
-namespace Owin.HelloWorld.ViewEngine
+namespace YuShan.ViewEngine
 {
     public class RazorViewEngine : IViewEngine
     {

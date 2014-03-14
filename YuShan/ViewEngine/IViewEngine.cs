@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Owin.HelloWorld.ViewEngine
+namespace YuShan.ViewEngine
 {
     public interface IViewEngine
     {

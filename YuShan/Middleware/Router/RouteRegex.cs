@@ -5,12 +5,11 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
-using Owin.HelloWorld.Routing;
 using YuShan.Middlewares;
 using JasonSoft;
 
 
-namespace Owin.HelloWorld.Routing
+namespace YuShan.Routing
 {
     internal class RouteRegex
     {

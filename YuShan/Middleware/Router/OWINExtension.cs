@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
-using Owin.HelloWorld.Routing;
+using YuShan.Routing;
 using YuShan.Middlewares;
 
 namespace YuShan.Routing
@@ -15,7 +15,12 @@ namespace YuShan.Routing
     public static class OWINExtension
     {
 
-        public static IAppBuilder Get(this IAppBuilder app, string route, Func<IOwinContext, Task> action)
+        public static IAppBuilder Get(this IAppBuilder app, string route, Func<IOwinContext, Task<string>> action)
+        {
+            return app.Use(typeof(RouteMiddleware), route, action);
+        }
+
+        public static IAppBuilder Get(this IAppBuilder app, string route, Func<IOwinContext, string> action)
         {
             return app.Use(typeof(RouteMiddleware), route, action);
         }

@@ -28,11 +28,15 @@ namespace YuShan.ViewEngine
             return builder;
         }
 
-        public static Task View(this IOwinContext ctx, string view)
+        public static string Render(this IOwinContext ctx, string view)
         {
             var output = ViewEngineActivator.DefaultViewEngine.Parse(view);
+            return output;
+        }
 
-            return ctx.Response.WriteAsync(output);
+        public static string Render(this IOwinContext ctx, string viewName, object model)
+        {
+            return ViewEngineActivator.DefaultViewEngine.Parse(viewName, model);
         }
 
         //public static void View(this Response res, string view, string viewEngineId)
@@ -45,10 +49,9 @@ namespace YuShan.ViewEngine
         //    res.End(output);
         //}
 
-        public static Task View<T>(this IOwinContext ctx, string view, T model)
+        public static string Render<T>(this IOwinContext ctx, string view, T model)
         {
-            var output = ViewEngineActivator.DefaultViewEngine.Parse(view, model);
-            return ctx.Response.WriteAsync(output);
+            return ViewEngineActivator.DefaultViewEngine.Parse(view, model);
         }
 
         //public static void View<T>(this Response res, string view, T model, string viewEngineId)

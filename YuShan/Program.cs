@@ -11,9 +11,9 @@ namespace YuShan
     {
         static void Main(string[] args)
         {
-            using (WebApp.Start<Startup>("http://localhost:12345"))
+            using (WebApp.Start<Startup>("http://localhost:3000"))
             {
-                Console.WriteLine("Server on and listen on port:12345");
+                Console.WriteLine("listen on port:3000");
                 Console.ReadLine();
             }
         }
