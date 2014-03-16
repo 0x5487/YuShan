@@ -24,5 +24,10 @@ namespace YuShan.Routing
         {
             return app.Use(typeof(RouteMiddleware), route, action);
         }
+
+        public static IAppBuilder Get(this IAppBuilder app, string route, Action<IOwinContext> action)
+        {
+            return app.Use(typeof(RouteMiddleware), route, action);
+        }
     }
 }

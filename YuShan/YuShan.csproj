@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="Controllers\Home.cs" />
     <Compile Include="Framework\HelloW.cs" />
+    <Compile Include="Framework\YuShanContext.cs" />
     <Compile Include="Middleware\NotFound\NotFoundMiddleware.cs" />
     <Compile Include="Middleware\Router\RouteRegex.cs" />
     <Compile Include="Middleware\Router\OWINExtension.cs" />

@@ -17,24 +17,32 @@ namespace YuShan.Middlewares
     {
         private RouteRegex _routeBuilder = null;
         private AppFunc _next = null;
-        private Func<IOwinContext, Task<string>> _actionAsync = null;
-        private Func<IOwinContext, string> _action = null;
+        private Func<IOwinContext, Task<string>> _funcAsyncReturn = null;
+        private Func<IOwinContext, string> _func = null;
+        private Action<IOwinContext> _action = null;
 
-
-        public RouteMiddleware(AppFunc next, string route, Func<IOwinContext, Task<string>> actionAsync)
-        {
-            this._routeBuilder = new RouteRegex(route);
-            this._next = next;
-            this._actionAsync = actionAsync;
-        }
-
-
-        public RouteMiddleware(AppFunc next, string route, Func<IOwinContext, string> action)
+        public RouteMiddleware(AppFunc next, string route, Action<IOwinContext> action)
         {
             this._routeBuilder = new RouteRegex(route);
             this._next = next;
             this._action = action;
         }
+
+        public RouteMiddleware(AppFunc next, string route, Func<IOwinContext, Task<string>> funcAsyncReturn)
+        {
+            this._routeBuilder = new RouteRegex(route);
+            this._next = next;
+            this._funcAsyncReturn = funcAsyncReturn;
+        }
+
+        public RouteMiddleware(AppFunc next, string route, Func<IOwinContext, string> func)
+        {
+            this._routeBuilder = new RouteRegex(route);
+            this._next = next;
+            this._func = func;
+        }
+
+
 
         public Task Invoke(IDictionary<string, object> env)
         {
@@ -55,19 +63,25 @@ namespace YuShan.Middlewares
                 }
 
                 string content = string.Empty;
-                if (_action != null)
+                if (_func != null)
                 {
-                    content = _action.Invoke(owinContext);
+                    content = _func.Invoke(owinContext);
                 }
-                else if(_actionAsync != null)
+                else if(_funcAsyncReturn != null)
                 {
-                    content = _actionAsync.Invoke(owinContext).Result;
+                    content = _funcAsyncReturn.Invoke(owinContext).Result;
+                }
+                else if (_action != null)
+                {
+                    _action.Invoke(owinContext);
+                    _next.Invoke(env);
                 }
 
                 return owinContext.Response.WriteAsync(content);
             }
             else
             {
+                
                 return _next.Invoke(env);
             }
 
