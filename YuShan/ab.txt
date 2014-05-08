@@ -1,3 +1,5 @@
 ﻿ab -k -c 1000 -n 100000 http://localhost:12345/
 ab -k -c 1000 -n 100000 http://localhost:3000/hello
-ab -k -c 1000 -n 100000 http://localhost:3000/
+ab -k -c 1000 -n 100000 http://localhost:3000/dust
+ab -k -c 1000 -n 100000 http://localhost:43185/
+ab -k -c 1000 -n 100000 http://jason.mystore.com:3000/
